@@ -45,15 +45,16 @@ object Lists extends App:
     def mapWithFlatMap[A, B](l: List[A])(mapper: A => B): List[B] =
       flatMap(l)(v => Cons(mapper(v), Nil()))
 
-    // todo volendo si possono togliere gli Optional da _max controllando all'inizio se la lista è vuota
     def max(l: List[Int]): Option[Int] =
       @annotation.tailrec
-      def _max(t: List[Int], max: Option[Int]): Option[Int] = (t, max) match
-        case (Cons(h, t), Some(x)) if x > h => _max(t, max)
-        case (Cons(h, t), _) => _max(t, Some(h))
-        case (Nil(), _) => max
+      def _max(t: List[Int], max: Int): Option[Int] = t match
+        case Cons(h, t) if max > h => _max(t, max)
+        case Cons(h, t) => _max(t, h)
+        case Nil() => Some(max)
 
-      _max(l, None())
+      l match
+        case Cons(h, t) => _max(t, h)
+        case _ => None()
 
     def getCourses(l: List[Person]): List[String] =
       flatMap(l)({case Person.Teacher(name, course) => Cons(course, Nil()); case _ => Nil()})
