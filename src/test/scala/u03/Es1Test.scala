@@ -47,4 +47,13 @@ class Es1Test {
     assertEquals(Cons(11, Cons(12, Cons(21, Cons(22, Cons(31, Cons(32, Nil())))))),
       flatMap(Cons(10, Cons(20, Cons(30, Nil()))))(v => Cons(v + 1, Cons(v + 2, Nil()))))
 
+  @Test
+  def testFilterWithFlatMap(): Unit =
+    assertEquals(Cons(3, Nil()),
+      filterWithFlatMap(Cons(1, Cons(2, Cons(3, Nil()))))(_ > 2))
+
+  @Test
+  def testMapWithFlatMap(): Unit =
+    assertEquals(Cons(2, Cons(4, Cons(6, Nil()))),
+      mapWithFlatMap(Cons(1, Cons(2, Cons(3, Nil()))))(_ * 2))
 }

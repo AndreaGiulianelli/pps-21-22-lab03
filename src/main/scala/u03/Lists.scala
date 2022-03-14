@@ -8,6 +8,9 @@ object Lists extends App:
     case Nil()
   // a companion object (i.e., module) for List
   object List:
+    import u02.Optionals.Option
+    import u02.Optionals.Option.Some
+    import u02.Optionals.Option.None
 
     def sum(l: List[Int]): Int = l match
       case Cons(h, t) => h + sum(t)
@@ -33,6 +36,19 @@ object Lists extends App:
     def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = l match
       case Cons(h, t) => append(f(h), flatMap(t)(f))
       case _ => Nil()
+
+    def filterWithFlatMap[A](l: List[A])(pred: A => Boolean): List[A] =
+      flatMap(l)({case v if pred(v) == true => Cons(v, Nil()); case _ => Nil()})
+
+    def mapWithFlatMap[A, B](l: List[A])(mapper: A => B): List[B] =
+      flatMap(l)(v => Cons(mapper(v), Nil()))
+
+    def max(l: List[Int]): Option[Int] = l match
+      case Cons(h, t) => max(t) match
+        case Some(a) if h < a => Some(a)
+        case _ => Some(h)
+      case Nil() => None()
+
 
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
