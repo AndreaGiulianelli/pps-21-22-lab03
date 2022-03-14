@@ -43,11 +43,16 @@ object Lists extends App:
     def mapWithFlatMap[A, B](l: List[A])(mapper: A => B): List[B] =
       flatMap(l)(v => Cons(mapper(v), Nil()))
 
-    def max(l: List[Int]): Option[Int] = l match
-      case Cons(h, t) => max(t) match
-        case Some(a) if h < a => Some(a)
-        case _ => Some(h)
-      case Nil() => None()
+    def max(l: List[Int]): Option[Int] =
+      @annotation.tailrec
+      def _max(t: List[Int], max: Option[Int]): Option[Int] = (t, max) match
+        case (Cons(h, t), Some(x)) if x > h => _max(t, max)
+        case (Cons(h, t), _) => _max(t, Some(h))
+        case (Nil(), _) => max
+
+      _max(l, None())
+
+
 
 
 
