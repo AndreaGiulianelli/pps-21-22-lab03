@@ -36,4 +36,15 @@ class Es1Test {
   def testAppendEmptyBothSide(): Unit =
     assertEquals(Nil(),
       append(Nil(), Nil()))
+
+  @Test
+  def testFlatMapSingleValue(): Unit =
+    assertEquals(Cons(11, Cons(12, Cons(13, Nil()))),
+      flatMap(Cons(10, Cons(11, Cons(12, Nil()))))(v => Cons(v + 1, Nil())))
+
+  @Test
+  def testFlatMapComplexValue(): Unit =
+    assertEquals(Cons(11, Cons(12, Cons(21, Cons(22, Cons(31, Cons(32, Nil())))))),
+      flatMap(Cons(10, Cons(20, Cons(30, Nil()))))(v => Cons(v + 1, Cons(v + 2, Nil()))))
+
 }

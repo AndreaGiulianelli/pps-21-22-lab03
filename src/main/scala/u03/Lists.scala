@@ -30,6 +30,9 @@ object Lists extends App:
       case (Cons(lh, lt), r) => Cons(lh, append(lt, r))
       case (Nil(), r) => r
 
+    def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = l match
+      case Cons(h, t) => append(f(h), flatMap(t)(f))
+      case _ => Nil()
 
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
