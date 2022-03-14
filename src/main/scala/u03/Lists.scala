@@ -26,6 +26,9 @@ object Lists extends App:
       case Cons(h, t) if n > 0 => drop(t, n - 1)
       case elem => elem
 
+    def append[A](left: List[A], right: List[A]): List[A] = (left, right) match
+      case (Cons(lh, lt), r) => Cons(lh, append(lt, r))
+      case (Nil(), r) => r
 
 
 
