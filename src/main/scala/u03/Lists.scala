@@ -59,7 +59,25 @@ object Lists extends App:
     def getCourses(l: List[Person]): List[String] =
       flatMap(l)({case Person.Teacher(name, course) => Cons(course, Nil()); case _ => Nil()})
 
+    /*
+      f take as arguments the current accumulator and the new element to fold.
+      So it's a function that fold the new value to the previous calculated one.
+    */
+    def foldLeft[A, B](l: List[A])(i: B)(f: (B, A) => B): B =
+      def _f(l: List[A], f: (B, A) => B, acc: B): B = l match
+        case Cons(h, t) => _f(t, f, f(acc, h))
+        case Nil() => acc
 
+      l match
+        case Nil() => i
+        case Cons(h, t) => _f(t, f, f(i, h))
+
+    def reverse[A](l: List[A]): List[A] = l match
+      case Cons(h, t) => append(reverse(t), Cons(h, Nil()))
+      case Nil() => Nil()
+
+    def foldRight[A, B](l: List[A])(i: B)(f: (A, B) => B): B =
+      foldLeft(reverse(l))(i)((x, y) => f(y, x))
 
 
 
