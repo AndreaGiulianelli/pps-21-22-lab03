@@ -1,5 +1,7 @@
 package u03
 
+import u02.Modules.{Person, isStudent}
+
 object Lists extends App:
 
   // A generic linkedlist
@@ -38,11 +40,12 @@ object Lists extends App:
       case _ => Nil()
 
     def filterWithFlatMap[A](l: List[A])(pred: A => Boolean): List[A] =
-      flatMap(l)({case v if pred(v) == true => Cons(v, Nil()); case _ => Nil()})
+      flatMap(l)({case v if pred(v) => Cons(v, Nil()); case _ => Nil()})
 
     def mapWithFlatMap[A, B](l: List[A])(mapper: A => B): List[B] =
       flatMap(l)(v => Cons(mapper(v), Nil()))
 
+    // todo volendo si possono togliere gli Optional da _max controllando all'inizio se la lista è vuota
     def max(l: List[Int]): Option[Int] =
       @annotation.tailrec
       def _max(t: List[Int], max: Option[Int]): Option[Int] = (t, max) match
@@ -51,6 +54,9 @@ object Lists extends App:
         case (Nil(), _) => max
 
       _max(l, None())
+
+    def getCourses(l: List[Person]): List[String] =
+      flatMap(l)({case Person.Teacher(name, course) => Cons(course, Nil()); case _ => Nil()})
 
 
 
