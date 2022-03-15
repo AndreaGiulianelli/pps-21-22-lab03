@@ -72,12 +72,18 @@ object Lists extends App:
         case Nil() => i
         case Cons(h, t) => _f(t, f, f(i, h))
 
+    // foldRight defined in terms of foldLeft (as in the slides)
+    def foldRight[A, B](l: List[A])(i: B)(f: (A, B) => B): B =
+      foldLeft(reverse(l))(i)((x, y) => f(y, x))
+
+    // Second version of foldRight
+    def foldRight2[A, B](l: List[A])(i: B)(f: (A, B) => B): B = l match
+      case Cons(h, t) => f(h, foldRight2(t)(i)(f))
+      case Nil() => i
+
     def reverse[A](l: List[A]): List[A] = l match
       case Cons(h, t) => append(reverse(t), Cons(h, Nil()))
       case Nil() => Nil()
-
-    def foldRight[A, B](l: List[A])(i: B)(f: (A, B) => B): B =
-      foldLeft(reverse(l))(i)((x, y) => f(y, x))
 
 
 

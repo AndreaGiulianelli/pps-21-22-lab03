@@ -29,4 +29,12 @@ class Es4Test {
   @Test
   def testFoldRightWithString(): Unit =
     assertEquals("num: 5num: 1num: 7num: 3", foldRight(lst)("")((x, acc) => s"${acc}num: ${x}"))
+
+  @Test
+  def testFoldRight2(): Unit =
+    assertEquals(-8, foldRight2(lst)(0)(_ - _))
+
+  @Test
+  def testFoldRight2WithString(): Unit =
+    assertEquals("num: 5num: 1num: 7num: 3", foldRight2(lst)("")((x, acc) => s"${acc}num: ${x}"))
 }
