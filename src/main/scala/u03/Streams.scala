@@ -41,7 +41,14 @@ object Streams extends App:
       case Cons(head, tail) if n > 0 => drop(tail())(n - 1)
       case _ => stream
 
+    def constant[A](element: => A): Stream[A] = iterate(element)(e => e)
+
   end Stream
+
+  // Es.7 Fibonacci Stream
+  val fibs: Stream[Int] = Stream.map(
+    Stream.iterate((0, 1))({case (x, y) => (y, x + y)})
+  )({case (x, y) => x})
 
   // var simplifies chaining of functions a bit..
   var str = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
