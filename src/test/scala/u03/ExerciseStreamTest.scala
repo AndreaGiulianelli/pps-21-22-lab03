@@ -5,7 +5,7 @@ import org.junit.Assert.*
 import Streams.*
 import Lists.*
 
-class Es5Test {
+class ExerciseStreamTest {
   import List.*;
 
   @Test

@@ -29,11 +29,11 @@ object Lists extends App:
 
     def drop[A](l: List[A], n: Int): List[A] = l match
       case Cons(h, t) if n > 0 => drop(t, n - 1)
-      case elem => elem
+      case _ => l
 
-    def append[A](left: List[A], right: List[A]): List[A] = (left, right) match
-      case (Cons(lh, lt), r) => Cons(lh, append(lt, r))
-      case (Nil(), r) => r
+    def append[A](left: List[A], right: List[A]): List[A] = left match
+      case Cons(lh, lt) => Cons(lh, append(lt, right))
+      case Nil() => right
 
     def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = l match
       case Cons(h, t) => append(f(h), flatMap(t)(f))
@@ -64,6 +64,7 @@ object Lists extends App:
       So it's a function that fold the new value to the previous calculated one.
     */
     def foldLeft[A, B](l: List[A])(i: B)(f: (B, A) => B): B =
+      @annotation.tailrec
       def _f(l: List[A], f: (B, A) => B, acc: B): B = l match
         case Cons(h, t) => _f(t, f, f(acc, h))
         case Nil() => acc
