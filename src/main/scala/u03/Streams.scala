@@ -37,6 +37,7 @@ object Streams extends App:
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
+    @annotation.tailrec
     def drop[A](stream: Stream[A])(n: Int): Stream[A] = stream match
       case Cons(head, tail) if n > 0 => drop(tail())(n - 1)
       case _ => stream
